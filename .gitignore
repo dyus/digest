@@ -1,0 +1,12 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+.pytest_cache/
+
+# QMD local index
+.qmd/
+
+# QMD skill install copy (reproducible via `qmd skill install`)
+.agents/
