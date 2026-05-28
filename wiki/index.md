@@ -6,12 +6,13 @@ Status: **skeleton** (created 2026-05-28). No code yet — pages populate as the
 
 ## Pages
 
-_None yet._ Once code exists, expect:
+- [`architecture.md`](architecture.md) — pipeline structure + GitHub Actions deployment/scheduling topology
+- [`dependencies.md`](dependencies.md) — key dependency choices with rationale
+
+Expected as the MVP wiki fills in:
 
 - `data-model.md` — persistent state (e.g. seen-links store)
 - `modules/` — one page per module (sources, fetch, state, format, publish)
-- `architecture.md` — pipeline structure, GitHub Actions topology
-- `dependencies.md` — key dependency choices with rationale
 - `decisions.md` — lightweight ADRs from git history
 - `gaps.md` — known gaps and open questions
 
