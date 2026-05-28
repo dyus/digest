@@ -2,6 +2,9 @@ from collections.abc import Callable
 from dataclasses import dataclass
 
 import feedparser
+import httpx
+
+_USER_AGENT = "Mozilla/5.0 (compatible; digest-bot/1.0; +https://github.com/dyus/digest)"
 
 
 @dataclass(frozen=True)
@@ -28,10 +31,23 @@ def parse_content(content, source: str | None = None) -> list[Item]:
     return [normalize(entry, source) for entry in parsed.entries]
 
 
-def fetch_source(source, parser: Callable = feedparser.parse) -> list[Item]:
-    """Network retrieval seam for one source. `parser` is injectable for tests.
+def _http_get(url: str) -> bytes:
+    resp = httpx.get(
+        url,
+        headers={"User-Agent": _USER_AGENT},
+        follow_redirects=True,
+        timeout=30.0,
+    )
+    resp.raise_for_status()
+    return resp.content
+
+
+def fetch_source(source, http_get: Callable[[str], bytes] = _http_get) -> list[Item]:
+    """Fetch one source's feed over HTTP and normalize it. `http_get` is injectable
+    for offline tests. Reads the full body via httpx (handles gzip/chunked and sends a
+    real User-Agent), avoiding the urllib IncompleteRead some feed servers trigger.
 
     May raise on DNS/timeout/HTTP errors — the caller (main.run) isolates per source.
     """
-    parsed = parser(source.feed_url)
-    return [normalize(entry, source.name) for entry in parsed.entries]
+    content = http_get(source.feed_url)
+    return parse_content(content, source.name)

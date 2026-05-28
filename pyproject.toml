@@ -5,6 +5,7 @@ description = "Weekly video-engineering digest: RSS to a private Telegram channe
 requires-python = ">=3.11"
 dependencies = [
     "feedparser==6.0.11",
+    "httpx>=0.27",
     "python-telegram-bot==21.9",
 ]
 

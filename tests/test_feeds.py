@@ -1,4 +1,4 @@
-from digest.feeds import Item, fetch_source, parse_content
+from digest.feeds import fetch_source, parse_content
 
 
 def test_parse_basic_preserves_order_and_fields(basic_feed):
@@ -25,10 +25,8 @@ def test_malformed_feed_yields_no_items_without_raising():
     assert parse_content("this is not xml at all") == []
 
 
-def test_fetch_source_uses_injected_parser():
-    class FakeParsed:
-        entries = [{"title": "T", "link": "https://ex.com/x", "published": "now"}]
-
+def test_fetch_source_uses_injected_http_get(basic_feed):
     src = type("S", (), {"feed_url": "https://ex.com/feed", "name": "Mux"})()
-    items = fetch_source(src, parser=lambda url: FakeParsed())
-    assert items == [Item(title="T", url="https://ex.com/x", published="now", source="Mux")]
+    items = fetch_source(src, http_get=lambda url: basic_feed.encode())
+    assert [i.url for i in items] == ["https://ex.com/a", "https://ex.com/b", "https://ex.com/c"]
+    assert items[0].source == "Mux"

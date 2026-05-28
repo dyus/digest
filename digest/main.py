@@ -48,6 +48,8 @@ def run(sources, publisher, state_path, fetch_fn, *, seed_only: bool = False) ->
 
 def main() -> int:
     logging.basicConfig(level=logging.INFO)
+    # httpx logs the full request URL at INFO — for Telegram that embeds the bot token.
+    logging.getLogger("httpx").setLevel(logging.WARNING)
     seed_only = os.environ.get("SEED_ONLY", "").lower() in ("1", "true", "yes")
     state_path = os.environ.get("STATE_PATH", DEFAULT_STATE_PATH)
 
