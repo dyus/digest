@@ -1,0 +1,29 @@
+[project]
+name = "digest"
+version = "0.1.0"
+description = "Weekly video-engineering digest: RSS to a private Telegram channel"
+requires-python = ">=3.11"
+dependencies = [
+    "feedparser==6.0.11",
+    "python-telegram-bot==21.9",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=9",
+    "ruff>=0.15",
+]
+
+[tool.uv]
+package = false
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM", "C4"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]

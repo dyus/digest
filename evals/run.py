@@ -4,6 +4,7 @@ hard gates. Format and Dedup gate always; Relevance gates only with --judge.
     python -m evals.run            # deterministic gates only (zero cost)
     python -m evals.run --judge    # also score relevance via the claude CLI
 """
+
 import argparse
 import json
 import sys
@@ -13,7 +14,6 @@ from digest.config import Source
 from digest.feeds import Item
 from digest.main import run
 from digest.select import normalize_url
-
 from evals import judge
 
 CASES_DIR = Path(__file__).parent / "cases"

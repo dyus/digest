@@ -1,5 +1,5 @@
+from collections.abc import Callable
 from dataclasses import dataclass
-from typing import Callable, Optional
 
 import feedparser
 
@@ -8,18 +8,18 @@ import feedparser
 class Item:
     title: str
     url: str
-    published: Optional[str] = None
-    source: Optional[str] = None
+    published: str | None = None
+    source: str | None = None
 
 
-def normalize(entry, source: Optional[str] = None) -> Item:
+def normalize(entry, source: str | None = None) -> Item:
     title = (entry.get("title") or "").strip()
     url = (entry.get("link") or "").strip()
     published = entry.get("published") or entry.get("updated") or None
     return Item(title=title, url=url, published=published, source=source)
 
 
-def parse_content(content, source: Optional[str] = None) -> list[Item]:
+def parse_content(content, source: str | None = None) -> list[Item]:
     """Parse already-retrieved feed content (str/bytes) into items, in parse order.
 
     Pure: no network. Used by tests with fixture content and by fetch_source.

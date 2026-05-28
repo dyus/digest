@@ -13,7 +13,9 @@ def _is_tracking(key: str) -> bool:
 def normalize_url(url: str) -> str:
     """Dedup key: drop tracking params, trailing slash, and fragment. Bias to under-collapse."""
     parts = urlsplit(url)
-    kept = [(k, v) for k, v in parse_qsl(parts.query, keep_blank_values=True) if not _is_tracking(k)]
+    kept = [
+        (k, v) for k, v in parse_qsl(parts.query, keep_blank_values=True) if not _is_tracking(k)
+    ]
     path = parts.path.rstrip("/") or "/"
     return urlunsplit((parts.scheme, parts.netloc, path, urlencode(kept), ""))
 

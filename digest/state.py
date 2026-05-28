@@ -15,9 +15,7 @@ def is_valid_url(url: str) -> bool:
         return False
     if parts.scheme not in ("http", "https"):
         return False
-    if not parts.netloc or "@" in parts.netloc:
-        return False
-    return True
+    return bool(parts.netloc) and "@" not in parts.netloc
 
 
 def load(path) -> set[str]:

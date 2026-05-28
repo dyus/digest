@@ -21,9 +21,12 @@ def test_save_is_deterministic(tmp_path):
 
 def test_invalid_urls_are_not_persisted(tmp_path):
     path = tmp_path / "seen.json"
-    save(path, {
-        "https://ex.com/ok",
-        "https://user:pass@ex.com/secret",  # userinfo — must be rejected
-        "ftp://ex.com/x",                    # non-http(s) — must be rejected
-    })
+    save(
+        path,
+        {
+            "https://ex.com/ok",
+            "https://user:pass@ex.com/secret",  # userinfo — must be rejected
+            "ftp://ex.com/x",  # non-http(s) — must be rejected
+        },
+    )
     assert load(path) == {"https://ex.com/ok"}

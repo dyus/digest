@@ -23,6 +23,7 @@ def _fetcher(items_by_source, failing=()):
         if source.name in failing:
             raise RuntimeError("fetch failed")
         return items_by_source.get(source.name, [])
+
     return fetch_fn
 
 
@@ -30,9 +31,13 @@ def test_sends_only_new_item_and_persists(tmp_path):
     # Covers F1 / AE2.
     state = tmp_path / "seen.json"
     src = Source("Mux", "u")
-    items = [Item("A", "https://ex.com/a", source="Mux"), Item("B", "https://ex.com/b", source="Mux")]
+    items = [
+        Item("A", "https://ex.com/a", source="Mux"),
+        Item("B", "https://ex.com/b", source="Mux"),
+    ]
     # Pre-seed 'a' as already seen.
     from digest.state import save
+
     save(state, {normalize_url("https://ex.com/a")})
 
     pub = FakePublisher()
@@ -49,6 +54,7 @@ def test_all_seen_sends_nothing_and_leaves_state(tmp_path):
     src = Source("Mux", "u")
     items = [Item("A", "https://ex.com/a", source="Mux")]
     from digest.state import save
+
     save(state, {normalize_url("https://ex.com/a")})
     before = state.read_bytes()
 

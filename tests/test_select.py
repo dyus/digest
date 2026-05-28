@@ -27,7 +27,10 @@ def test_within_run_duplicate_returned_once():
 
 
 def test_cross_source_duplicate_returned_once():
-    items = [_item("https://ex.com/a", source="Mux"), _item("https://ex.com/a", source="Cloudflare")]
+    items = [
+        _item("https://ex.com/a", source="Mux"),
+        _item("https://ex.com/a", source="Cloudflare"),
+    ]
     assert len(select(items, set())) == 1
 
 

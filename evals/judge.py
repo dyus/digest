@@ -3,6 +3,7 @@
 Deterministic checks (format, dedup) need no LLM. Relevance is scored by an LLM judge
 via the local `claude` CLI when available; callers may skip it to run at zero cost.
 """
+
 import json
 import re
 import shutil
@@ -47,12 +48,14 @@ def judge_relevance(messages: list[str]) -> dict:
         raise RuntimeError("no `claude` CLI available to judge relevance")
     prompt = (
         f"{_RUBRIC}\n\nScore ONLY the Relevance dimension for these digest messages.\n"
-        f"Return strict JSON: {{\"relevance\": <1-5>, \"notes\": \"<short>\"}}.\n\n"
+        f'Return strict JSON: {{"relevance": <1-5>, "notes": "<short>"}}.\n\n'
         + "\n---\n".join(messages)
     )
     out = subprocess.run(
         [claude, "-p", prompt, "--max-budget-usd", "0.20"],
-        capture_output=True, text=True, timeout=120,
+        capture_output=True,
+        text=True,
+        timeout=120,
     ).stdout
     match = re.search(r"\{.*\}", out, re.DOTALL)
     if not match:

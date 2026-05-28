@@ -22,10 +22,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
-      - run: pip install -r requirements.txt
+      - uses: astral-sh/setup-uv@v5
+      - run: uv sync --frozen
       - name: Run digest
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
@@ -33,7 +31,7 @@ jobs:
           SEED_ONLY: ${{ inputs.seed_only }}
         run: |
           echo "::add-mask::$TELEGRAM_BOT_TOKEN"
-          python -m digest.main
+          uv run python -m digest.main
       - name: Commit updated seen-state
         run: |
           git config user.name "digest-bot"
