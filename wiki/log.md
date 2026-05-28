@@ -30,3 +30,17 @@ Append-only log of all wiki operations. Newest at bottom.
 **Pages created:** architecture.md
 **Pages updated:** index.md (linked architecture.md under Pages)
 **Source:** .github/workflows/digest.yml, digest/main.py
+
+## [2026-05-28] dependencies-page (uv + ruff adoption)
+
+**Action:** Dependencies/tooling changed — updated `dependencies.md` for the `chore: adopt uv + ruff` migration. Source of truth moved from pinned `requirements.txt` / `requirements-dev.txt` + bare pip/venv to `pyproject.toml` + committed `uv.lock`. Documented: rationale for uv over pip+requirements (reproducible lock, single declarative source, faster CI), `[tool.uv] package = false` (app not library), new `ruff>=0.15` dev dep replacing the flake8/isort/black trio with its `select`/`line-length`/`target-version` config, pytest config moved into `pyproject.toml`, and CI wiring (`ci.yml` ruff+pytest, `digest.yml` switched to setup-uv + `uv run`). Reversed and marked historical the earlier "no lock manager, keep it flat" stance.
+**Pages created:** —
+**Pages updated:** dependencies.md
+**Source:** pyproject.toml, uv.lock, .github/workflows/ci.yml, .github/workflows/digest.yml, git commit 2498da6.
+
+## [2026-05-28] dependencies-page (httpx direct dependency)
+
+**Action:** Dependencies changed — added `httpx>=0.27` runtime entry to `dependencies.md` for the `fix: robust httpx feed fetch` change (commit `e746c06`). Documented the rationale: feeds now fetch their body via `httpx` (real User-Agent, follow_redirects, 30s timeout) instead of feedparser's internal urllib, which raised `IncompleteRead` on some MVP feeds; floor-pinned because it was already transitive via python-telegram-bot (resolved 0.28.1 in uv.lock); wrapped behind injectable `_http_get`; INFO logging silenced in main to avoid leaking the Telegram bot token in logged URLs. Corrected the now-false "No HTTP client (requests/httpx) as a direct dep" line in "Choices deliberately avoided" — narrowed to "No `requests`" and added a historical note that the urllib-only fetch was superseded.
+**Pages created:** —
+**Pages updated:** dependencies.md
+**Source:** digest/feeds.py, digest/main.py, pyproject.toml, uv.lock, git commit e746c06.
