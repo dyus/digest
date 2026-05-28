@@ -2,18 +2,19 @@
 
 *LLM-maintained knowledge base. Do not edit manually — update via the wiki protocol in CLAUDE.md.*
 
-Status: **skeleton** (created 2026-05-28). No code yet — pages populate as the MVP lands, via the post-commit hook and `~/wikis/bootstrap-wiki.md`.
+Status: **populated** (MVP landed on `feat/digest-mvp`). Pages are grounded in the real code under `digest/` and `evals/`.
 
 ## Pages
 
-_None yet._ Once code exists, expect:
+- [`architecture.md`](architecture.md) — pipeline structure + GitHub Actions deployment/scheduling topology
+- [`modules.md`](modules.md) — one section per module in `digest/` and `evals/`
+- [`data-model.md`](data-model.md) — in-memory `Item` + persistent seen-links state (`state/seen.json`)
+- [`dependencies.md`](dependencies.md) — key dependency choices with rationale
+- [`gaps.md`](gaps.md) — known gaps and open questions
 
-- `data-model.md` — persistent state (e.g. seen-links store)
-- `modules/` — one page per module (sources, fetch, state, format, publish)
-- `architecture.md` — pipeline structure, GitHub Actions topology
-- `dependencies.md` — key dependency choices with rationale
+Expected as the wiki fills in:
+
 - `decisions.md` — lightweight ADRs from git history
-- `gaps.md` — known gaps and open questions
 
 ## Conventions
 

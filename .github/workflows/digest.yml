@@ -1,0 +1,53 @@
+name: Weekly Digest
+
+on:
+  schedule:
+    - cron: "0 9 * * 5"  # Friday 09:00 UTC
+  workflow_dispatch:
+    inputs:
+      seed_only:
+        description: "Seed seen-state without posting (run once at first deploy)"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: digest-state
+  cancel-in-progress: false
+
+jobs:
+  digest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+      - run: uv sync --frozen
+      - name: Run digest
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHANNEL_ID: ${{ secrets.TELEGRAM_CHANNEL_ID }}
+          SEED_ONLY: ${{ inputs.seed_only }}
+        run: |
+          echo "::add-mask::$TELEGRAM_BOT_TOKEN"
+          uv run python -m digest.main
+      - name: Commit updated seen-state
+        run: |
+          git config user.name "digest-bot"
+          git config user.email "digest-bot@users.noreply.github.com"
+          git add state/seen.json
+          if git diff --staged --quiet; then
+            echo "no state change"
+            exit 0
+          fi
+          git commit -m "chore: update digest seen-state"
+          for attempt in 1 2 3; do
+            if git pull --rebase origin "${{ github.ref_name }}" && git push origin "HEAD:${{ github.ref_name }}"; then
+              exit 0
+            fi
+            echo "push attempt $attempt failed; retrying"
+            sleep 5
+          done
+          echo "commit-back push failed after retries" >&2
+          exit 1

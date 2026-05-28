@@ -1,0 +1,23 @@
+{
+  "name": "weekly-mixed",
+  "seen": ["https://blog.cloudflare.com/old-video-post"],
+  "sources": [
+    {
+      "name": "Mux",
+      "keywords": null,
+      "items": [
+        {"title": "Per-title encoding with AV1", "url": "https://www.mux.com/blog/av1-per-title"},
+        {"title": "Reducing HLS startup latency", "url": "https://www.mux.com/blog/hls-startup-latency"}
+      ]
+    },
+    {
+      "name": "Cloudflare",
+      "keywords": ["video", "codec", "stream", "media", "hls", "dash"],
+      "items": [
+        {"title": "Cloudflare Stream adds DASH packaging", "url": "https://blog.cloudflare.com/stream-dash"},
+        {"title": "Our Q3 financial results", "url": "https://blog.cloudflare.com/q3-results"},
+        {"title": "Old video post", "url": "https://blog.cloudflare.com/old-video-post?utm_source=newsletter"}
+      ]
+    }
+  ]
+}
