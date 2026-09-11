@@ -1,4 +1,5 @@
 [
+  "https://blog.cloudflare.com/casb-policies",
   "https://blog.cloudflare.com/cloudflare-blog-uses-emdash",
   "https://blog.cloudflare.com/vulnerability-discovery-remediation",
   "https://thebroadcastknowledge.com/2021/07/14/video-telenor-dr-svt-platform-modernisation-open-source-transcoding",
@@ -32,6 +33,7 @@
   "https://www.mux.com/blog/one-click-content-moderation-dashboard-with-mux-robots",
   "https://www.mux.com/blog/protect-your-prod-environment-new-rate-limit-controls",
   "https://www.mux.com/blog/punchpass",
+  "https://www.mux.com/blog/queuing-mux-robots-directives-with-laravel",
   "https://www.mux.com/blog/react-native-needs-a-new-video-player",
   "https://www.mux.com/blog/ship-your-next-mux-integration-from-the-terminal",
   "https://www.mux.com/blog/simple-infra-pricing-doesn-t-work",
